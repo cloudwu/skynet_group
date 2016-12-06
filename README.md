@@ -5,9 +5,9 @@ group 模块中有 7 个 API ，分别为：
 * group.start 实现一个 group 框架下的服务的简单框架。
 * group.call 在 group 内发起一个跨服务调用。
 * group.send 发送一条消息到 group 内的另一个服务。
-* group.newservice 在 group 内启动一个新服务。
+* group.newservice 在 group 内启动一个新服务(同名服务可启动多次)。
 * group.newgroup 启动一个新的 group 。
-* group.query 查询 group 内一个名字对应的服务。
+* group.query 查询 group 内一个名字对应的服务(如果没有同名服务，则启动唯一一份)。
 * group.name 查询当前 group 的名字。
 
 下面分别介绍这些 API 的用法，以及如何使用这个 group 模块。
@@ -20,7 +20,7 @@ group 模块中有 7 个 API ，分别为：
 
 group.newservice(name, ...) 用来取代 skynet.newservice 。当一个服务调用 group.newservice 后，会在同组内启动一个新的 service ，并会自动为这个服务命名为 name 。当同一个名字的服务被启动多份，后面启动的服务将没有名字，但 group.newservice 返回的地址依然是有效的。
 
-group.query(name) 可以在当前组内查询一个名字对应的地址，这个 API 多用于管理器，因为 group.call 和 group.send 都支持直接传入字符串名字，而并不需要先查询。
+group.query(name) 可以在当前组内查询一个名字对应的地址，这个 API 多用于管理器，或只需要启动同名服务一次。group.call 和 group.send 都支持直接传入字符串名字，而并不需要先查询。
 
 group.call(name, ...) 相当于 skynet.call(name, "lua", ...) 。区别在于，当 name 是一个字符串时，它指当前组内服务的名字。这个名字是由 group.newservice 创建出来的。如果之前并未访问过这个服务，那么在 call 之前，会多一个查询名字的过程。
 

@@ -18,7 +18,7 @@ group 模块中有 7 个 API ，分别为：
 
 我们可以开发一个组（服务器）管理服务，使用 group.newgroup(groupname, bootservice) 这个 API 就可以启动一个新的组。可以为这个组设置一个 groupname ，这个只是一个备注，并没有什么实际的含义，多个组同名也没有关系。协调组名的工作可由这个管理服务来做。这个 API 的第 2 个参数是这个组的启动器，类似 skynet 在 config 里配置的启动服务一样。新的组建立后，会在这个组里面启动第一个服务，就是 bootservice ，之后的启动工作应该由它来完成。group.newgroup 会在 bootservice 的启动流程结束后关闭它。
 
-group.newservice(name, ...) 用来取代 skynet.newservice 。当一个服务调用 group.newservice 后，会在同组内启动一个新的 service ，并会自动为这个服务命名为 name 。当同一个名字的服务被启动多份，后面启动的服务将没有名字，但 group.newservice 返回的地址依然是有效的。
+group.newservice(name, ...) 用来取代 skynet.newservice 。当一个服务调用 group.newservice 后，会在同组内启动一个新的 service ，并会自动为这个服务命名为 name 。当同一个名字的服务被启动多份，名字对应哪个服务是未定义的，但 group.newservice 返回的地址是唯一有效的。
 
 group.query(name) 可以在当前组内查询一个名字对应的地址，这个 API 多用于管理器，或只需要启动同名服务一次。group.call 和 group.send 都支持直接传入字符串名字，而并不需要先查询。
 
